@@ -19,8 +19,16 @@ const moviedata = (req, res, next) => {
 }
 
 const createmovie = (req, res, next) => {
-    console.log(req.params)
-    res.redirect('/')
+    let name = req.body.name
+    let genre = req.body.genre
+    let year = req.body.year
+    if (isNaN(Number(year)) === true || Number(year) < 0 || name === '' || year === '' || genre === ''){
+        console.log(`Cannot be less than 0 or not a year!`)
+        res.redirect('/movie/new');
+    } else {
+        console.log(req.body)
+        res.redirect('/')
+    }
     next()
 }
 

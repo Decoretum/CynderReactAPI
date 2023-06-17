@@ -6,7 +6,7 @@ const {functions} = require('../backend')
 
 router.route('/new')
 .get((req, res, next) => {})
-.post((req, res, next)=>{console.log(req)})
+.post(functions[1],()=>{})
 
 router.route('/:name')
 .get(functions[0], ()=>{})  

@@ -10,7 +10,6 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
-import { get, post } from '../../ExpressAPI/routes/movie';
 
 
 const router = createBrowserRouter([
@@ -28,11 +27,7 @@ const router = createBrowserRouter([
     element: <NewMovie />,
     action: '/api/movie/new'
   },
-  {
-    path: '/movie/new',
-    element: <NewMovie />,
-    action: '/api/movie/new'
-  }
+
 
 ])
 

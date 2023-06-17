@@ -4,7 +4,7 @@ const app = express()
 const homeRouter = require('../ExpressAPI/routes/home')
 const movieRouter = require('./routes/movie')
 
-
+app.use(express.urlencoded({extended: true}))
 app.use('/api/movie', movieRouter)
 app.use('/api', homeRouter)
 
