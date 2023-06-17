@@ -19,13 +19,13 @@ const router = createBrowserRouter([
     errorElement: <h2> Error </h2>
   },
   {
-    path: '/movie/:name',
+    path: '/movies/:name',
     element: <MovieInfo />
   },
   {
-    path: '/movie/new',
+    path: '/movies/new',
     element: <NewMovie />,
-    action: '/api/movie/new'
+    //action: '/api/movies/new'
   },
 
 

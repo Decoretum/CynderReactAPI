@@ -22,7 +22,11 @@ function App() {
   const [word, setWord] = useState('')
 
   useEffect(() => {
-    fetchData('Batman')
+    fetch('/api').then(response => response.json())
+    .then(data => {
+      console.log(data)
+      setMovies(data)
+    })
   },[])
   
 
@@ -42,7 +46,7 @@ function getSearch(e){
     <div className='App'>
       <h1> MovieLand </h1>
       <h2 style={{position: 'absolute', right: '7vw'}}> 
-        <Link className='link' to={'/movie/new'}> Create a Movie </Link>
+        <Link className='link' to={'/movies/new'}> Create a Movie </Link>
       </h2>
       <div className='search'>
           <input
@@ -53,6 +57,10 @@ function getSearch(e){
           <img src={searchicon} alt='search'
           onClick={() => fetchData(search)}
           />
+      </div>
+      <div>
+        <div className='header'> Filter by Genre: </div>
+
       </div>
     </div>
 

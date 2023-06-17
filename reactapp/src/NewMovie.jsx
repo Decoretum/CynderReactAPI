@@ -30,7 +30,7 @@ function NewMovie({props}){
     return(
             <>
             <h2 style={{margin: '20px'}}> <Link to={'/'} className='link'> Back to Home </Link> </h2>
-            <form action = '/api/movie/new' method='POST' style={{margin: 'auto', marginTop: '5vh', width: '25%', }}>
+            <form action = '/api/movies/new' method='POST' style={{margin: 'auto', marginTop: '5vh', width: '25%', }}>
             <h2 className='header' style={{color: 'white'}}> Create a Movie! </h2>
                 <div className='inputgroup'>
                     <span style={{color:'white'}}>Movie Name</span> <br/><br/>

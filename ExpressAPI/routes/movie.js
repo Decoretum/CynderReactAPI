@@ -8,7 +8,7 @@ router.route('/new')
 .get((req, res, next) => {})
 .post(functions[1],()=>{})
 
-router.route('/:name')
+router.route('/:id')
 .get(functions[0], ()=>{})  
 
 router.route('/')

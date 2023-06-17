@@ -5,7 +5,7 @@ const homeRouter = require('../ExpressAPI/routes/home')
 const movieRouter = require('./routes/movie')
 
 app.use(express.urlencoded({extended: true}))
-app.use('/api/movie', movieRouter)
+app.use('/api/movies', movieRouter)
 app.use('/api', homeRouter)
 
 app.listen(5000, ()=>{

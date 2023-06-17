@@ -12,21 +12,21 @@ function Moviecard({movie}){
         <>
             <div className='movie'> 
                 <div>
-                    <p> {movie.Year} </p>
+                    <p> {movie.year} </p>
                 </div>
 
-                <div>
-                    <img src={movie.Poster !== '' || movie.Poster !== 'N/A' ? movie.Poster : 'err.png'} alt={'No Image Found'}
+                <div>   
+                    <img src={require('./cutie.png')} alt={'No Image Found'}
                     //onError={errorimage}
                     //Had trouble setting the default pic to 400 error pic
                     />
                 </div>
 
                 <div>
-                    <span>{movie.Type}</span>
+                    <span>{movie.genre}</span>
                             <h3>
-                                <Link className="link" to={'/movie/' + movie.Title} state={{name: movie.Title, year: movie.Year, type: movie.Type}}> 
-                                    {movie.Title} 
+                                <Link className="link" to={'/movies/' + movie.movie_id} state={{name: movie.name, year: movie.year, type: movie.genre, id:movie.movie_id}}> 
+                                    {movie.name} 
                                 </Link>
                             </h3>
 

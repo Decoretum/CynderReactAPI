@@ -1,23 +1,41 @@
-const moviedata = (req, res, next) => {
-    const key = 'ace5116';
-    const API_URL = 'http://www.omdbapi.com?apikey=' + key;
-    const search = req.params.name.replace(':',"");
-
-    try{
-        //asynchronous
-        fetch(`${API_URL}&s=${search}`).then(
-            response => response.json()
-        ).then(
-            data => {
-                res.json({url:API_URL+'&s='+search, params:req.params, data:data})
-            }
-        )          
-    } catch {
-        res.json({error: 'Something is wrong'})
+const sqlite3 = require('sqlite3').verbose() //long stack traces
+let db = new sqlite3.Database('./memory.db', (err) => {
+    if (err){
+        return console.error(err);
+    } else {
+        console.log(`Connected to SQLITE3 Database!`)
     }
+})
+
+//db.close() //when ur done with this
+
+//Fetch all movie Data
+const movies = (req, res, next) => {
+    db.serialize(()=>{
+        let query = `SELECT * FROM Movie`
+        db.all(query, [], (err, rows) => {
+            if (err) throw err;
+            else {
+                let arr = []
+                rows.forEach((row) => {
+                    arr.push(row)
+                })
+                res.json(arr)
+            }
+        })
+    })
+}
+
+
+
+
+//movie data
+const moviedata = (req, res, next) => {
+    console.log(req.params)
     
 }
 
+//create a movie
 const createmovie = (req, res, next) => {
     let name = req.body.name
     let genre = req.body.genre
@@ -27,9 +45,22 @@ const createmovie = (req, res, next) => {
         res.redirect('/movie/new');
     } else {
         console.log(req.body)
-        res.redirect('/')
+        let value = [name, genre, Number(year)];
+        let query = `INSERT INTO Movie(name, genre, year) VALUES(?, ?, ?)`
+    
+        db.run(query, value, (err)=>{
+            if (err){
+                return console.log(err);
+            } else {
+                console.log(`Movie added into database!`)
+                res.redirect('/')
+                next()
+            }
+        })
+      
+        
     }
-    next()
+    
 }
 
-module.exports.functions = [moviedata, createmovie]
+module.exports.functions = [moviedata, createmovie, movies]

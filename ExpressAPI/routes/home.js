@@ -1,6 +1,9 @@
-const home = (req, res, next) =>{
-    
-    res.json({"users": ['Gael','Iris','Jan','Sam']})
-}
+const express = require('express')
+const router = express.Router()
+const {functions} = require('../backend')
 
-module.exports = home
+router.route('/')
+.get(functions[2], ()=>{})
+
+
+module.exports = router
