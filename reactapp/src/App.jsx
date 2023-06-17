@@ -41,6 +41,9 @@ function getSearch(e){
 
     <div className='App'>
       <h1> MovieLand </h1>
+      <h2 style={{position: 'absolute', right: '7vw'}}> 
+        <Link className='link' to={'/movie/new'}> Create a Movie </Link>
+      </h2>
       <div className='search'>
           <input
           placeholder='Search for movies'

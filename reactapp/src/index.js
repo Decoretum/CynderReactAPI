@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import MovieInfo from './MovieInfo';
 import reportWebVitals from './reportWebVitals';
+import NewMovie from './NewMovie';
 
 import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
+import { get, post } from '../../ExpressAPI/routes/movie';
 
 
 const router = createBrowserRouter([
@@ -18,8 +20,18 @@ const router = createBrowserRouter([
     errorElement: <h2> Error </h2>
   },
   {
-    path: '/movie/:id',
+    path: '/movie/:name',
     element: <MovieInfo />
+  },
+  {
+    path: '/movie/new',
+    element: <NewMovie />,
+    action: '/api/movie/new'
+  },
+  {
+    path: '/movie/new',
+    element: <NewMovie />,
+    action: '/api/movie/new'
   }
 
 ])

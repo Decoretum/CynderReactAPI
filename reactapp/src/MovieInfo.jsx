@@ -1,14 +1,27 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 
 function MovieInfo ({movie}){
     let data = useLocation()
-    console.log(data.state)
+    const [url, setUrl] = useState('')  
+    const [cond, setCond] = useState('')  
+
+    useEffect(() => {
+        fetch(`/api/movie/:${data.state.name}`).then(response => response.json()
+        ).then(data => {setUrl(data.url)
+            console.log(data)})
+    }, [])
     return(
-        <>
-            <h1> {data.state.name} </h1>
-            <p> {data.state.year} </p>
-            <p> {data.state.type}</p> <br/><br/><br/>
-            <Link to='/'> Back to Home </Link>
+        <>  
+            <div className="moviecontainer">
+                <h2> Title: {data.state.name} </h2>
+                <p> Express API URL: /api/movie/:{`${data.state.name}`}</p>
+                <p> OMDB API URL: {`${url}`}  </p>
+                <p> Year: {data.state.year} </p>
+                <p> Genre: {data.state.type}</p> <br/><br/><br/>
+                <Link className='link' style={{color: 'green'}} to='/'> Back to Home </Link>
+            </div>
         </>
     )
 

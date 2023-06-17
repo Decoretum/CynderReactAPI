@@ -2,11 +2,11 @@ const express = require('express')
 const app = express()
 
 const homeRouter = require('../ExpressAPI/routes/home')
-const movieRouter = require('../ExpressAPI/routes/moviedata')
+const movieRouter = require('./routes/movie')
 
 
+app.use('/api/movie', movieRouter)
 app.use('/api', homeRouter)
-app.use('/api/movie/:name', movieRouter)
 
 app.listen(5000, ()=>{
     console.log(`Application listening at Port 5000`)

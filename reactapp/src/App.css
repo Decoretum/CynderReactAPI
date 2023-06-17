@@ -1,10 +1,47 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
 
+.header{
+padding: 15px;
+margin: 10px;
+margin-left: 3vw;
+
+}
+
+.inputgroup{
+margin-left: 3vw;
+padding: 15px;
+}
+
+.inputgroup > input{
+  padding: 10px;
+  border-radius: 9px;
+  outline: none;
+}
+
+button{
+  padding: 10px;
+  border-radius: 9px;
+}
+
 .searchheader{
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.link{
+  text-decoration: none;
+  color: white;
+}
+
+.moviecontainer{
+  background-color: white;
+  padding: 15px;
+}
+
+.moviecontainer > * {
+  margin-top: 5vh;
 }
 
 * {

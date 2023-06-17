@@ -5,7 +5,6 @@ import {
     Routes
   } from "react-router-dom";
 
-import MovieInfo from './MovieInfo'
 
 function Moviecard({movie}){
 
@@ -26,7 +25,7 @@ function Moviecard({movie}){
                 <div>
                     <span>{movie.Type}</span>
                             <h3>
-                                <Link to={'/movie/' + movie.Title} state={{name: movie.Title, year: movie.Year, type: movie.Type}}> 
+                                <Link className="link" to={'/movie/' + movie.Title} state={{name: movie.Title, year: movie.Year, type: movie.Type}}> 
                                     {movie.Title} 
                                 </Link>
                             </h3>
