@@ -18,26 +18,47 @@ const API_URL = 'http://www.omdbapi.com?apikey=' + key;
 function App() {
   const [backendData, setBackendData] = useState([{}])
   const [movies, setMovies] = useState([])
+  const [fmovies, setFMovies] = useState([])
   const [search, setSearch] = useState('')
-  const [word, setWord] = useState('')
+  const [genres, setGenres] = useState([])
 
   useEffect(() => {
     fetch('/api').then(response => response.json())
     .then(data => {
       console.log(data)
-      setMovies(data)
+      setMovies(data[0])
+      setFMovies(data[0])
+      setGenres(data[1])
+      
     })
   },[])
   
 
-async function fetchData(title){
-    const res = await fetch(`${API_URL}&s=${title}`)
-    const data = await res.json(); //JSON data
-    setMovies(data.Search);
+function fetchData(title){
+  if (title.trim() === ''){
+    return setMovies(fmovies)
+  }
+    let filtered = fmovies.filter((movie) => {
+      return movie.MovieName.toUpperCase().indexOf(title.toUpperCase()) > -1
+    })    
+    setMovies(filtered);
+    console.log(filtered)
 }
 
 function getSearch(e){
     setSearch(e.target.value);
+}
+
+function filter(e){
+    console.log(e.target.value)
+    if (e.target.value === 'Choose a Genre'){
+      return setMovies(fmovies)
+    }
+    let filtered = fmovies.filter((movie) => {
+      return movie.GenreName === e.target.value
+    })
+    console.log(filtered)
+    setMovies(filtered)
 }
 
   return (
@@ -59,8 +80,15 @@ function getSearch(e){
           />
       </div>
       <div>
-        <div className='header'> Filter by Genre: </div>
-
+        <div className='header' style={{color: 'white', fontSize: '30px'}}> Filter by Genre: </div>
+        <select name='genre' id='genre' onChange={filter} style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}> 
+          <option> Choose a Genre </option>
+          {
+              genres.map((genre, key) => {
+                  return <option type='text' value={genre.name}> {genre.name} </option>
+              })
+          }
+        </select>
       </div>
     </div>
 
@@ -78,7 +106,7 @@ function getSearch(e){
             </div>
           </>
         ) : (
-          <div className='empty'> 
+          <div className='empty' style={{color: 'white', fontSize: '30px'}}> 
             No movies found!
           </div>
         )

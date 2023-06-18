@@ -11,18 +11,28 @@ let db = new sqlite3.Database('./memory.db', (err) => {
 
 //Fetch all movie Data
 const movies = (req, res, next) => {
+    const movies = []
+    const genres = []
     db.serialize(()=>{
-        let query = `SELECT * FROM Movie`
+        let query = `SELECT movie_id, Movie.name AS MovieName, Movie.year, Genre.name AS GenreName FROM Movie LEFT JOIN Genre ON Movie.genre = Genre.genreID`
+        let gquery = `SELECT * FROM Genre`
         db.all(query, [], (err, rows) => {
             if (err) throw err;
             else {
-                let arr = []
                 rows.forEach((row) => {
-                    arr.push(row)
+                    movies.push(row)
+                    console.log(row)
                 })
-                res.json(arr)
+                
             }
         })
+        .all(gquery, [],(err, rows) => {
+            rows.forEach((row) => {
+                genres.push(row)
+            })
+            res.json([movies, genres])
+        })
+        
     })
 }
 
@@ -31,8 +41,36 @@ const movies = (req, res, next) => {
 
 //movie data
 const moviedata = (req, res, next) => {
-    console.log(req.params)
+    let number = req.params.id;
+    let query = `SELECT * FROM Movie WHERE movie_id = ${number}`
+    db.all(query, [], (err, rows) => {
+        if (err) return console.error(err)
+        else{
+            let movie = rows[0]
+            console.log(movie)
+            let gquery = `SELECT * FROM Genre WHERE genreID = ${Number(movie.genre)}`
+            db.all(gquery, [], (err, rows) => {
+                if (err) return console.error(err)
+                else{
+                    let genre = rows[0]
+                    console.log(genre)
+                    res.json([movie, genre])
+                }
+            })
+        }
+    })
     
+}
+
+//get all Genres for movie creation
+const genres = (req, res, next) => {
+    let query = `SELECT * FROM Genre`
+    db.all(query, [], (err, rows) => {
+        if (err) return console.error(err)
+        else{
+            res.json(rows)
+        }
+    })
 }
 
 //create a movie
@@ -45,7 +83,7 @@ const createmovie = (req, res, next) => {
         res.redirect('/movie/new');
     } else {
         console.log(req.body)
-        let value = [name, genre, Number(year)];
+        let value = [name, Number(genre), Number(year)];
         let query = `INSERT INTO Movie(name, genre, year) VALUES(?, ?, ?)`
     
         db.run(query, value, (err)=>{
@@ -63,4 +101,4 @@ const createmovie = (req, res, next) => {
     
 }
 
-module.exports.functions = [moviedata, createmovie, movies]
+module.exports.functions = [moviedata, createmovie, movies, genres]

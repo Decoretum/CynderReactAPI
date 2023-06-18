@@ -9,9 +9,14 @@ function NewMovie({props}){
     const [name, setName] = useState('');
     const [genre, setGenre] = useState('');
     const [year, setYear] = useState('');
+    const [genres, setGenres] = useState([]);
 
     useEffect(() => {
-       
+       fetch(`/api/movies/new`).then(
+        repsonse => repsonse.json()
+       ).then(
+        data => {setGenres(data)}
+       )
     },[])
 
 
@@ -24,6 +29,7 @@ function NewMovie({props}){
     }
 
     function getGenre(e){
+        console.log(e.target.value)
         setGenre(e.target.value);
     }
 
@@ -37,7 +43,14 @@ function NewMovie({props}){
                     <input name='name' id='name' type='text' placeholder='Movie Name' onChange={getName}/><br/><br/><br/>
 
                     <span style={{color:'white'}}>Movie Genre</span> <br /><br />
-                    <input name='genre' id= 'genre' type='text' placeholder='Movie Genre' onChange={getGenre} /><br/><br/><br/>
+                    <select name='genre' id='genre' onChange={getGenre} style={{padding: '5px', borderRadius: '9px'}}> 
+                        <option value=""> Choose a Genre </option>
+                        {
+                            genres.map((genre, key) => {
+                                return <option type='text' value={genre.genreID}> {genre.name} </option>
+                            })
+                        }
+                    </select><br /> <br />
 
                     <span style={{color:'white'}}>Year</span> <br /><br />
                     <input name='year' id='year' type='text' placeholder='Year' onChange={getYear} /><br/><br/><br/>    

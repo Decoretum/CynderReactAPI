@@ -5,7 +5,7 @@ const {functions} = require('../backend')
 
 
 router.route('/new')
-.get((req, res, next) => {})
+.get(functions[3],() => {})
 .post(functions[1],()=>{})
 
 router.route('/:id')

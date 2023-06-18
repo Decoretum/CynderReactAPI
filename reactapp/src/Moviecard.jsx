@@ -23,10 +23,10 @@ function Moviecard({movie}){
                 </div>
 
                 <div>
-                    <span>{movie.genre}</span>
+                    <span>{movie.GenreName}</span>
                             <h3>
-                                <Link className="link" to={'/movies/' + movie.movie_id} state={{name: movie.name, year: movie.year, type: movie.genre, id:movie.movie_id}}> 
-                                    {movie.name} 
+                                <Link className="link" to={'/movies/' + movie.movie_id} state={{name: movie.MovieName, year: movie.year, type: movie.GenreName, id:movie.movie_id}}> 
+                                    {movie.MovieName} 
                                 </Link>
                             </h3>
 
