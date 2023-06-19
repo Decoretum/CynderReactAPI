@@ -1,6 +1,10 @@
 import React  from 'react';
 import { useState, useEffect } from 'react';
 import './App.css'
+import { useNavigate } from 'react-router-dom';
+
+import { useForm } from 'react-hook-form'
+
 
 import {
     BrowserRouter as Router,
@@ -15,6 +19,18 @@ function Genre(){
     })
 
     const [genre, setGenre] = useState('')
+    const [genredel, setGenreDel] = useState('')
+
+    const {register, handleSubmit} = useForm();
+    const navigate = useNavigate()
+
+    function del(e){
+        fetch(`/api/genres/${genredel}`, {method: 'DELETE'})
+        .then(
+            navigate('/')
+        )
+        
+    }
 
     return (
         <>
@@ -28,6 +44,16 @@ function Genre(){
                 </div>
 
             </form>
+
+            <form method='DELETE' onSubmit={handleSubmit(del)} style={{margin: 'auto', marginTop: '5vh', width: '25%'}}>
+                <div className='inputgroup'>
+                    <h2 style={{color: 'white'}}> Genre ID to Delete </h2><br/>
+                    <input {...register('genreID')} name='genreID' id='genreID' type='text' placeholder='Genre ID' onChange={(e) => setGenreDel(e.target.value)}/><br/><br/><br/>
+                    <button type='submit'> Delete Genre </button>
+
+                </div>
+
+            </form> 
         </>
     )
 }

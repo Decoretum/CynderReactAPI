@@ -76,7 +76,7 @@ function filter(e){ //genre
       <h1> MovieLand </h1>
       <h2 style={{position: 'absolute', right: '7vw'}}> 
         <Link className='link' to={'/new'}> Create a Movie </Link> <br/><br/>
-        <Link className='link' to={'/NewGenre'}> Create a Genre </Link>
+        <Link className='link' to={'/NewGenre'}> Create/Delete a Genre </Link>
 
       </h2>
       <div className='search'>

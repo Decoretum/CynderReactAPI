@@ -1,6 +1,8 @@
 import React  from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
 
 import './App.css'
 
@@ -11,6 +13,9 @@ function NewMovie({props}){
     const [year, setYear] = useState('');
     const [genres, setGenres] = useState([]);
 
+    const {register, handleSubmit} = useForm();
+    const navigate = useNavigate()
+
     useEffect(() => {
        fetch(`/api/movies/new`).then(
         repsonse => repsonse.json()
@@ -18,6 +23,28 @@ function NewMovie({props}){
         data => {setGenres(data)}
        )
     },[])
+
+    function submit(e){
+        //action = '/api/movies/new' method='POST'
+        let name = e.name;
+        let genre = e.genre;
+        let year = e.year;
+
+
+        fetch(`/api/movies/new`, {
+            headers: {
+                'Content-Type' : 'application/json',
+                //'Accept' : 'application/json',
+            },
+            mode: 'cors',
+            method: 'POST',
+            body: JSON.stringify(e)
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data)
+            navigate(data)})
+
+    }
 
 
     function getName(e){
@@ -36,14 +63,14 @@ function NewMovie({props}){
     return(
             <>
             <h2 style={{margin: '20px'}}> <Link to={'/'} className='link'> Back to Home </Link> </h2>
-            <form action = '/api/movies/new' method='POST' style={{margin: 'auto', marginTop: '5vh', width: '25%', }}>
+            <form style={{margin: 'auto', marginTop: '5vh', width: '25%', }} onSubmit={handleSubmit(submit)}>
             <h2 className='header' style={{color: 'white'}}> Create a Movie! </h2>
                 <div className='inputgroup'>
                     <span style={{color:'white'}}>Movie Name</span> <br/><br/>
-                    <input name='name' id='name' type='text' placeholder='Movie Name' onChange={getName}/><br/><br/><br/>
+                    <input {...register('name')} type='text' placeholder='Movie Name' onChange={getName}/><br/><br/><br/>
 
                     <span style={{color:'white'}}>Movie Genre</span> <br /><br />
-                    <select name='genre' id='genre' onChange={getGenre} style={{padding: '5px', borderRadius: '9px'}}> 
+                    <select {...register('genre')} onChange={getGenre} style={{padding: '5px', borderRadius: '9px'}}> 
                         <option value=""> Choose a Genre </option>
                         {
                             genres.map((genre, key) => {
@@ -53,7 +80,7 @@ function NewMovie({props}){
                     </select><br /> <br />
 
                     <span style={{color:'white'}}>Year</span> <br /><br />
-                    <input name='year' id='year' type='text' placeholder='Year' onChange={getYear} /><br/><br/><br/>    
+                    <input {...register('year')} type='text' placeholder='Year' onChange={getYear} /><br/><br/><br/>    
 
                     <button type='submit'> Create Movie </button> 
                 </div>
