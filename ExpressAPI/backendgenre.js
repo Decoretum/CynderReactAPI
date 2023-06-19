@@ -41,6 +41,11 @@ const getGenre = (req, res, next) => {
 const makeGenre = (req, res, next) => {
     //from parameters
     let name = req.body.name
+
+    if (name === ''){
+        return res.redirect('/NewGenre')
+    }
+
     let query = `INSERT INTO Genre (name)
     VALUES
     (?)
@@ -71,7 +76,8 @@ const editGenre = (req, res, next) => {
 }
 
 const deleteGenre = (req, res, next) => {
-    let id = req.body.genreID;
+    let id = Number(req.params.id);
+    console.log(id)
     let query = `
     DELETE FROM Genre
     WHERE 
@@ -80,7 +86,7 @@ const deleteGenre = (req, res, next) => {
     db.run(query, [id], (err, rows) => {
         if (err) return console.error(err);
         else{
-            res.json(rows);
+            res.redirect('/')
         }
     })
 }

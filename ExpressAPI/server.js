@@ -7,7 +7,10 @@ const genreRouter = require('./routes/genres')
 const queryRouter = require('../ExpressAPI/routes/queried')
 
 //FOR MOVIES
+
 app.use(express.urlencoded({extended: true})) //USE THIS TO FETCH URL DATA
+app.use(express.json()) //USE THIS AS MIDDLEWARE FUNCTION TO SEND POST REQUEST THROUGH JSON DATA 
+
 app.use('/api/genres', genreRouter)
 app.use('/api/movies', movieRouter)
 app.use('/api/queried', queryRouter)

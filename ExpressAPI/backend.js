@@ -167,11 +167,11 @@ const createmovie = (req, res, next) => {
     let name = req.body.name
     let genre = req.body.genre
     let year = req.body.year
+    console.log(req.body)
     if (isNaN(Number(year)) === true || Number(year) < 0 || name === '' || year === '' || genre === ''){
         console.log(`Cannot be less than 0 or not a year!`)
-        res.redirect('/movie/new');
+        return res.redirect('/new');
     } else {
-        console.log(req.body)
         let value = [name, Number(genre), Number(year)];
         let query = `INSERT INTO Movie(name, genre, year) VALUES(?, ?, ?)`
     
@@ -180,8 +180,7 @@ const createmovie = (req, res, next) => {
                 return console.log(err);
             } else {
                 console.log(`Movie added into database!`)
-                res.redirect('/')
-                next()
+                return res.json('/')
             }
         })
       
