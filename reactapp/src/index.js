@@ -5,11 +5,13 @@ import App from './App';
 import MovieInfo from './MovieInfo';
 import reportWebVitals from './reportWebVitals';
 import NewMovie from './NewMovie';
+import Genre from './Genre';
 
 import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
+import MovieEdit from './MovieEdit';
 
 
 const router = createBrowserRouter([
@@ -19,14 +21,24 @@ const router = createBrowserRouter([
     errorElement: <h2> Error </h2>
   },
   {
-    path: '/movies/:id',
+    path: '/:id',
     element: <MovieInfo />
   },
   {
-    path: '/movies/new',
+    path: '/:id/edit',
+    element: <MovieEdit />
+  },
+  {
+    path: '/new',
     element: <NewMovie />,
     //action: '/api/movies/new'
   },
+  {
+    path: '/NewGenre',
+    element: <Genre />
+  }
+
+  
 
 
 ])

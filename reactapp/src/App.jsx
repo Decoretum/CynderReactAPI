@@ -12,9 +12,6 @@ import {
 } from "react-router-dom";
 
 
-const key = 'ace5116';
-const API_URL = 'http://www.omdbapi.com?apikey=' + key;
-
 function App() {
   const [backendData, setBackendData] = useState([{}])
   const [movies, setMovies] = useState([])
@@ -49,11 +46,22 @@ function getSearch(e){
     setSearch(e.target.value);
 }
 
-function filter(e){
+function filter(e){ //genre
     console.log(e.target.value)
-    if (e.target.value === 'Choose a Genre'){
+    if (e.target.value === 'All Genres'){
       return setMovies(fmovies)
+    } else {
+      
+      fetch(`/api/queried?term=${search}&genre=${genres}`).then(
+        response => response.json()
+      ).then(
+        data => {console.log(data)
+
+        }
+      )
     }
+
+
     let filtered = fmovies.filter((movie) => {
       return movie.GenreName === e.target.value
     })
@@ -67,7 +75,9 @@ function filter(e){
     <div className='App'>
       <h1> MovieLand </h1>
       <h2 style={{position: 'absolute', right: '7vw'}}> 
-        <Link className='link' to={'/movies/new'}> Create a Movie </Link>
+        <Link className='link' to={'/new'}> Create a Movie </Link> <br/><br/>
+        <Link className='link' to={'/NewGenre'}> Create a Genre </Link>
+
       </h2>
       <div className='search'>
           <input
@@ -82,7 +92,7 @@ function filter(e){
       <div>
         <div className='header' style={{color: 'white', fontSize: '30px'}}> Filter by Genre: </div>
         <select name='genre' id='genre' onChange={filter} style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}> 
-          <option> Choose a Genre </option>
+          <option> All Genres </option>
           {
               genres.map((genre, key) => {
                   return <option type='text' value={genre.name}> {genre.name} </option>

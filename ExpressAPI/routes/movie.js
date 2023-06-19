@@ -10,6 +10,12 @@ router.route('/new')
 
 router.route('/:id')
 .get(functions[0], ()=>{})  
+.delete(functions[7], ()=>{})
+
+router.route('/:id/edit')
+.get(functions[5], ()=> {})
+.post(functions[6], ()=>{})
+
 
 router.route('/')
 .get((req, res, next) => {res.json({home:true})})

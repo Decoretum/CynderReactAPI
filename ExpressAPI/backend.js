@@ -21,7 +21,6 @@ const movies = (req, res, next) => {
             else {
                 rows.forEach((row) => {
                     movies.push(row)
-                    console.log(row)
                 })
                 
             }
@@ -36,30 +35,120 @@ const movies = (req, res, next) => {
     })
 }
 
-
+//query Movie and Genre
+const queriedmovie = (req, res, next) => {
+    let term = req.query.term;
+    let genre = req.query.genre;
+    console.log(term)
+    console.log(genre)
+    res.json({term, genre});
+}
 
 
 //movie data
 const moviedata = (req, res, next) => {
+    let number = req.params.id;
+    console.log(number)
+    let query = `SELECT * FROM Movie WHERE movie_id = ?`
+    let value = number
+    db.serialize(()=> {
+        db.get(query, [value], (err, rows) => {
+            if (err) return console.error(err)
+            else{
+                console.log(rows)
+                let movie = rows
+                let gquery = `SELECT * FROM Genre WHERE genreID = ?`
+                let gvalue = Number(movie.genre)
+                db.get(gquery, [gvalue], (err, rows) => {
+                    if (err) return console.error(err)
+                    else{
+                        console.log(rows)
+                        let genre = rows
+                        res.json([movie, genre])
+                    }
+                })
+            }
+        })
+    })
+    
+    
+}
+
+//Edit a Movie, GET Request
+const editmoviedata = (req, res, next) => {
     let number = req.params.id;
     let query = `SELECT * FROM Movie WHERE movie_id = ${number}`
     db.all(query, [], (err, rows) => {
         if (err) return console.error(err)
         else{
             let movie = rows[0]
-            console.log(movie)
             let gquery = `SELECT * FROM Genre WHERE genreID = ${Number(movie.genre)}`
             db.all(gquery, [], (err, rows) => {
                 if (err) return console.error(err)
                 else{
                     let genre = rows[0]
-                    console.log(genre)
-                    res.json([movie, genre])
+                    let genrequery = `SELECT * FROM Genre`
+                    db.all(genrequery, [],(err,rows)=>{
+                        if(err) return console.error(err);
+                        else{
+                            res.json([movie, genre, rows])
+                        }
+                    })
+                   
                 }
             })
         }
     })
-    
+}
+
+//Edits a movie object, POST request
+const editmovieExecute = (req, res, next) => {
+    console.log(req.body)
+
+    let name = req.body.name;
+    let year = req.body.year;
+    let genre = Number(req.body.genre);
+    let movie_id = Number(req.body.movie_id)
+
+    if (req.body.genre === ''){
+        return res.redirect(`/${movie_id}/edit`)
+    }
+
+    //Database Computation
+    db.serialize(() => {
+        let query = 
+        `UPDATE Movie
+        SET 
+        name = ?,
+        year = ?,
+        genre = ?
+        WHERE movie_id = ?
+             `
+        let values = [name, year, genre, movie_id]
+        db.run(query, values, (err,rows)=>{
+            if (err) return console.error(err);
+            else{
+                res.redirect(`/${movie_id}`)
+            }
+        })
+    })
+}
+
+//deletes a movie, GET REQUEST
+const deletemovie = (req, res, next) => {
+    console.log('Deleting Movie with ID' + req.params.id)
+    let query = `
+    DELETE FROM 
+    Movie
+    WHERE movie_id = ?
+    `
+    let value = [Number(req.params.id)];
+    db.run(query, value, (err, rows) => {
+        if (err) return console.error(err)
+        else{
+            res.redirect(`/`)
+        }
+    })
 }
 
 //get all Genres for movie creation
@@ -98,7 +187,8 @@ const createmovie = (req, res, next) => {
       
         
     }
-    
 }
 
-module.exports.functions = [moviedata, createmovie, movies, genres]
+
+module.exports.functions = [moviedata, createmovie, movies, genres, queriedmovie, editmoviedata, editmovieExecute, deletemovie]
+module.exports.db = [db]

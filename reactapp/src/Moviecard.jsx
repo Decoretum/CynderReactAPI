@@ -25,7 +25,7 @@ function Moviecard({movie}){
                 <div>
                     <span>{movie.GenreName}</span>
                             <h3>
-                                <Link className="link" to={'/movies/' + movie.movie_id} state={{name: movie.MovieName, year: movie.year, type: movie.GenreName, id:movie.movie_id}}> 
+                                <Link className="link" to={'/' + movie.movie_id} state={{name: movie.MovieName, year: movie.year, type: movie.GenreName, id:movie.movie_id}}> 
                                     {movie.MovieName} 
                                 </Link>
                             </h3>
