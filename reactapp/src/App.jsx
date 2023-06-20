@@ -5,13 +5,10 @@ import './App.css'
 import searchicon from './search.svg'
 
 import {useQuery, useMutation} from '@tanstack/react-query'
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import {
-  BrowserRouter as Router,
-  Route,
   Link,
-  Routes
 } from "react-router-dom";
 
 
@@ -30,18 +27,7 @@ function App() {
     setSearchParams(params)
 
   },[])
-  
 
-  function fetchData(title){
-    if (title.trim() === ''){
-      return setMovies(fmovies)
-    }
-      let filtered = fmovies.filter((movie) => {
-        return movie.MovieName.toUpperCase().indexOf(title.toUpperCase()) > -1
-      })    
-      setMovies(filtered);
-      console.log(filtered)
-  }
   
   function getSearch(e){
       setSearch(e.target.value);
@@ -120,10 +106,6 @@ const filtered = (e) => {
   }
 }
 
-const twoCalls = (event) => {
-  filtered(event)
-}
-
 
 
 //const secondfiltered
@@ -151,11 +133,14 @@ if (movieQuery.isLoading){
           onChange={getSearch}
           />  
           <img src={searchicon} alt='search'
-          onClick={twoCalls}
+          onClick={filtered}
           />
       </div>
       <div>
         <div className='header' style={{color: 'white', fontSize: '30px'}}> Filter by Genre & Term <br/><br/> Click a Genre then press the magnifying glass to instantly filter all movies based on a genre from SQLITE3 <br/><br/> Type a word on the search box to filter genre based on the "term" then press the magnifying glass. </div>
+        <div className='header' style={{color: 'white', fontSize: '20px'}}> To view a Movie, press the Movie name from down below. You will be redirected to the Movie information page. </div>
+        <div className='header' style={{color: 'white', fontSize: '20px'}}> Movie Information Page: Contains Information about the movie as well as "Edit" and "Delete" buttons that will redirect you to an Edit form or delete a movie object from SQLITE3. </div>
+
         <select onChange={(e) => setSearchGenre(e.target.value)} 
            style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}
            > 
