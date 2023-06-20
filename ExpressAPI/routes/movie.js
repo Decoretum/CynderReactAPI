@@ -14,7 +14,7 @@ router.route('/:id')
 
 router.route('/:id/edit')
 .get(functions[5], ()=> {})
-.post(functions[6], ()=>{})
+.put(functions[6], ()=>{})
 
 
 router.route('/')

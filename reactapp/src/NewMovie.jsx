@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
+import {useQuery, useMutation} from '@tanstack/react-query'
 
 import './App.css'
 
@@ -16,25 +17,42 @@ function NewMovie({props}){
     const {register, handleSubmit} = useForm();
     const navigate = useNavigate()
 
-    useEffect(() => {
-       fetch(`/api/movies/new`).then(
-        repsonse => repsonse.json()
-       ).then(
-        data => {setGenres(data)}
-       )
-    },[])
+    useEffect(() => {},[])
+
+    const genresQuery = useQuery({
+        queryKey: ['genres'],
+        queryFn: async () => {
+            return (fetch(`/api/movies/new`).then(
+                repsonse => repsonse.json()
+               ).then(
+                data => {
+                    //setGenres(data)
+                    return data;
+                }
+               ))
+        }
+    })
+
+    if (genresQuery.isLoading){
+        return (
+            <>
+                <h1> Retrieving All genres from SQLITE3 Database. </h1>
+            </>
+        )
+    } if (genresQuery.isError){
+        return (
+            <>
+                <h1> Failed to retrieve genres from SQLITE3 Database. </h1>
+                <h2 style={{margin: '20px'}}> <Link to={'/'} className='link'> Back to Home </Link> </h2>
+
+            </>
+        )
+    }
 
     function submit(e){
-        //action = '/api/movies/new' method='POST'
-        let name = e.name;
-        let genre = e.genre;
-        let year = e.year;
-
-
         fetch(`/api/movies/new`, {
             headers: {
                 'Content-Type' : 'application/json',
-                //'Accept' : 'application/json',
             },
             mode: 'cors',
             method: 'POST',
@@ -73,7 +91,7 @@ function NewMovie({props}){
                     <select {...register('genre')} onChange={getGenre} style={{padding: '5px', borderRadius: '9px'}}> 
                         <option value=""> Choose a Genre </option>
                         {
-                            genres.map((genre, key) => {
+                            genresQuery.data.map((genre, key) => {
                                 return <option type='text' value={genre.genreID}> {genre.name} </option>
                             })
                         }

@@ -25,30 +25,46 @@ function Genre(){
     const navigate = useNavigate()
 
     function del(e){
-        fetch(`/api/genres/${genredel}`, {method: 'DELETE'})
+        fetch(`/api/genres/${e.genreID}`, {method: 'DELETE'})
         .then(
             navigate('/')
         )
-        
+    }
+
+    function create(e){
+        //method='POST' action='/api/genres'
+        let genrename = e.genrename;
+        fetch(`/api/genres`, {
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({genrename: genrename})
+        }).then(
+            response => response.json()
+        ).then(
+            data => {navigate(data)}
+        )
     }
 
     return (
         <>
             <h2 style={{margin: '20px'}}> <Link to={'/'} className='link'> Back to Home </Link> </h2>
-            <form method='POST' action='/api/genres' style={{margin: 'auto', marginTop: '5vh', width: '25%'}}>
+            <form onSubmit={handleSubmit(create)}  style={{margin: 'auto', marginTop: '5vh', width: '25%'}}>
                 <div className='inputgroup'>
                     <h2 style={{color: 'white'}}> Genre Name </h2><br/>
-                    <input name='name' id='name' type='text' placeholder='Genre Name' onChange={(e) => setGenre(e.target.value)}/><br/><br/><br/>
+                    <input type='text' placeholder='Genre Name' {...register('genrename')}/><br/><br/><br/>
                     <button type='submit'> Create Genre </button>
 
                 </div>
 
             </form>
 
-            <form method='DELETE' onSubmit={handleSubmit(del)} style={{margin: 'auto', marginTop: '5vh', width: '25%'}}>
+            <form onSubmit={handleSubmit(del)} style={{margin: 'auto', marginTop: '5vh', width: '25%'}}>
                 <div className='inputgroup'>
                     <h2 style={{color: 'white'}}> Genre ID to Delete </h2><br/>
-                    <input {...register('genreID')} name='genreID' id='genreID' type='text' placeholder='Genre ID' onChange={(e) => setGenreDel(e.target.value)}/><br/><br/><br/>
+                    <input {...register('genreID')} type='text' placeholder='Genre ID'/><br/><br/><br/>
                     <button type='submit'> Delete Genre </button>
 
                 </div>

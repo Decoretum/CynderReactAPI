@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import NewMovie from './NewMovie';
 import Genre from './Genre';
 
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+
 import {
   createBrowserRouter,
   RouterProvider
@@ -37,15 +39,16 @@ const router = createBrowserRouter([
     path: '/NewGenre',
     element: <Genre />
   }
-
-  
-
-
 ])
+
+const queryClient = new QueryClient();
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <QueryClientProvider client={queryClient}>
     <RouterProvider router={router} />
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -37,11 +37,18 @@ const movies = (req, res, next) => {
 
 //query Movie and Genre
 const queriedmovie = (req, res, next) => {
-    let term = req.query.term;
-    let genre = req.query.genre;
-    console.log(term)
-    console.log(genre)
-    res.json({term, genre});
+    let genreID = Number(req.params.genreID)
+    let query = `
+        SELECT movie_id as movie_id, Movie.name as MovieName, Genre.name as GenreName, year 
+        FROM Movie, Genre
+        WHERE Movie.genre = ?
+        AND Genre.genreID = ?`
+    db.all(query, [genreID, genreID], (err, rows) => {
+        if (err) return console.error(err);
+        else {
+            return res.json(rows)
+        }
+    })
 }
 
 
@@ -103,13 +110,12 @@ const editmoviedata = (req, res, next) => {
 
 //Edits a movie object, POST request
 const editmovieExecute = (req, res, next) => {
-    console.log(req.body)
-
     let name = req.body.name;
     let year = req.body.year;
     let genre = Number(req.body.genre);
     let movie_id = Number(req.body.movie_id)
 
+    console.log(req.body)
     if (req.body.genre === ''){
         return res.redirect(`/${movie_id}/edit`)
     }
@@ -128,7 +134,7 @@ const editmovieExecute = (req, res, next) => {
         db.run(query, values, (err,rows)=>{
             if (err) return console.error(err);
             else{
-                res.redirect(`/${movie_id}`)
+                res.json('/')
             }
         })
     })

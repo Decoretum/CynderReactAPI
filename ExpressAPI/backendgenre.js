@@ -18,6 +18,7 @@ const getAll = (req, res, next) => {
                     <p> ID ${rows[i].genreID}: ${rows[i].name} </p>
                     `)
             }
+            res.end()
             
     
         }
@@ -40,7 +41,7 @@ const getGenre = (req, res, next) => {
 //make Genre
 const makeGenre = (req, res, next) => {
     //from parameters
-    let name = req.body.name
+    let name = req.body.genrename
 
     if (name === ''){
         return res.redirect('/NewGenre')
@@ -53,7 +54,7 @@ const makeGenre = (req, res, next) => {
     db.run(query, [name], (err, rows) => {
         if (err) return console.error(err);
         else{
-            res.redirect(`/`)
+            res.json(`/`)
         }
     })
 }

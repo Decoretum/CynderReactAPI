@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import './App.css'
 import searchicon from './search.svg'
 
+import {useQuery, useMutation} from '@tanstack/react-query'
+
 import {
   BrowserRouter as Router,
   Route,
@@ -18,55 +20,63 @@ function App() {
   const [fmovies, setFMovies] = useState([])
   const [search, setSearch] = useState('')
   const [genres, setGenres] = useState([])
+  const [filter, setFilter] = useState('')
 
-  useEffect(() => {
-    fetch('/api').then(response => response.json())
-    .then(data => {
-      console.log(data)
-      setMovies(data[0])
-      setFMovies(data[0])
-      setGenres(data[1])
-      
-    })
-  },[])
+  useEffect(() => {},[])
+
+  function fetchData(title){
+    if (title.trim() === ''){
+      return setMovies(fmovies)
+    }
+      let filtered = fmovies.filter((movie) => {
+        return movie.MovieName.toUpperCase().indexOf(title.toUpperCase()) > -1
+      })    
+      setMovies(filtered);
+      console.log(filtered)
+  }
+  
+  function getSearch(e){
+      setSearch(e.target.value);
+  }
+  
   
 
-function fetchData(title){
-  if (title.trim() === ''){
-    return setMovies(fmovies)
+  
+  
+
+const movieQuery = useQuery({
+  queryKey: ['movies'],
+  queryFn: async () => {
+    return fetch('/api').then(
+      response => response.json()
+    ).then(
+      data => {
+        console.log(data)
+        setMovies(data[0])
+        setFMovies(data[0])
+        setGenres(data[1])
+        return data[0]
+      }
+    )
   }
-    let filtered = fmovies.filter((movie) => {
-      return movie.MovieName.toUpperCase().indexOf(title.toUpperCase()) > -1
-    })    
-    setMovies(filtered);
-    console.log(filtered)
-}
+})
 
-function getSearch(e){
-    setSearch(e.target.value);
-}
-
-function filter(e){ //genre
-    console.log(e.target.value)
-    if (e.target.value === 'All Genres'){
-      return setMovies(fmovies)
-    } else {
-      
-      fetch(`/api/queried?term=${search}&genre=${genres}`).then(
-        response => response.json()
-      ).then(
-        data => {console.log(data)
-
-        }
-      )
+const filtered = (e) => {
+  fetch(`/api/queried/${e.target.value}`).then(
+    response => response.json()
+  ).then(
+    data => {
+      console.log(data)
+      setMovies(data)
+      return data
     }
+  )
+}
 
-
-    let filtered = fmovies.filter((movie) => {
-      return movie.GenreName === e.target.value
-    })
-    console.log(filtered)
-    setMovies(filtered)
+if (movieQuery.isLoading){
+  return <h1> Loading movies! </h1>
+} else if (movieQuery.isError){
+  return <h1> Movies cannot be loaded from SQLITE3 Database. </h1>
 }
 
   return (
@@ -91,11 +101,11 @@ function filter(e){ //genre
       </div>
       <div>
         <div className='header' style={{color: 'white', fontSize: '30px'}}> Filter by Genre: </div>
-        <select name='genre' id='genre' onChange={filter} style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}> 
+        <select name='genre' id='genre' onChange={filtered} style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}> 
           <option> All Genres </option>
           {
               genres.map((genre, key) => {
-                  return <option type='text' value={genre.name}> {genre.name} </option>
+                  return <option type='text' value={genre.genreID}> {genre.name} </option>
               })
           }
         </select>
@@ -105,7 +115,7 @@ function filter(e){ //genre
 
 
       {
-        movies?.length > 0 ? (
+       movies.length > 0 ? (
           <>
             <div className='container'> 
               {
