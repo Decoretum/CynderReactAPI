@@ -5,6 +5,7 @@ import './App.css'
 import searchicon from './search.svg'
 
 import {useQuery, useMutation} from '@tanstack/react-query'
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import {
   BrowserRouter as Router,
@@ -15,14 +16,21 @@ import {
 
 
 function App() {
-  const [backendData, setBackendData] = useState([{}])
   const [movies, setMovies] = useState([])
   const [fmovies, setFMovies] = useState([])
-  const [search, setSearch] = useState('')
   const [genres, setGenres] = useState([])
-  const [filter, setFilter] = useState('')
 
-  useEffect(() => {},[])
+  const [search, setSearch] = useState('')
+  const[searchGenre, setSearchGenre] = useState('')
+
+
+  let [searchParams, setSearchParams] = useSearchParams()
+  useEffect(() => {
+    let params = {}
+    setSearchParams(params)
+
+  },[])
+  
 
   function fetchData(title){
     if (title.trim() === ''){
@@ -38,11 +46,6 @@ function App() {
   function getSearch(e){
       setSearch(e.target.value);
   }
-  
-  
-
-  
-  
 
 const movieQuery = useQuery({
   queryKey: ['movies'],
@@ -62,16 +65,68 @@ const movieQuery = useQuery({
 })
 
 const filtered = (e) => {
-  fetch(`/api/queried/${e.target.value}`).then(
-    response => response.json()
-  ).then(
-    data => {
-      console.log(data)
-      setMovies(data)
-      return data
+  //if Search word is empty
+  if (searchGenre.trim() !== '' && !search){
+    let params = {genreID: searchGenre}
+    setSearchParams(params)
+    fetch(`/api/queried/${searchGenre}`).then(
+      response => response.json()
+    ).then(
+      data => {
+        setMovies(data)
+      }
+    )
+  
+  //if search word is not empty
+  } else if (searchGenre && search || searchGenre && search !== ''){
+    let params = {
+      genreID: searchGenre,
+      term: search
     }
-  )
+    setSearchParams(params)
+    fetch(`/api/queried/${searchGenre}`).then(
+      response => response.json()
+    ).then(
+      data => {
+        //setMovies(data)
+        console.log(data)
+        let worded = data.filter((element) => {
+          let movie = element.MovieName.toUpperCase().replaceAll(" ",'');
+          let searched = search.toUpperCase().replaceAll(" ",'');
+          return movie.indexOf(searched) > -1
+        })
+        setMovies(worded)
+      }
+    )
+  }
+
+  //if genre is all genres but search not empty
+  else if (search !== '' && searchGenre === '') {
+    let params = {term: search}
+    setSearchParams(params)
+    let worded = fmovies.filter((element) => {
+      let movie = element.MovieName.toUpperCase().replaceAll(" ",'');
+      let searched = search.toUpperCase().replaceAll(" ",'');
+      return movie.indexOf(searched) > -1
+    })
+    setMovies(worded)
+  }
+
+  //genre is all genres and no search word
+  else{
+    let params = {}
+    setSearchParams(params)
+    setMovies(fmovies)
+  }
 }
+
+const twoCalls = (event) => {
+  filtered(event)
+}
+
+
+
+//const secondfiltered
 
 if (movieQuery.isLoading){
   return <h1> Loading movies! </h1>
@@ -96,13 +151,15 @@ if (movieQuery.isLoading){
           onChange={getSearch}
           />  
           <img src={searchicon} alt='search'
-          onClick={() => fetchData(search)}
+          onClick={twoCalls}
           />
       </div>
       <div>
-        <div className='header' style={{color: 'white', fontSize: '30px'}}> Filter by Genre: </div>
-        <select name='genre' id='genre' onChange={filtered} style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}> 
-          <option> All Genres </option>
+        <div className='header' style={{color: 'white', fontSize: '30px'}}> Filter by Genre & Term <br/><br/> Click a Genre then press the magnifying glass to instantly filter all movies based on a genre from SQLITE3 <br/><br/> Type a word on the search box to filter genre based on the "term" then press the magnifying glass. </div>
+        <select onChange={(e) => setSearchGenre(e.target.value)} 
+           style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}
+           > 
+          <option value=''> All Genres </option>
           {
               genres.map((genre, key) => {
                   return <option type='text' value={genre.genreID}> {genre.name} </option>
@@ -126,9 +183,12 @@ if (movieQuery.isLoading){
             </div>
           </>
         ) : (
+          <>
+          <br/><br/>
           <div className='empty' style={{color: 'white', fontSize: '30px'}}> 
             No movies found!
-          </div>
+          </div> <br/><br/>
+          </>
         )
         
           
