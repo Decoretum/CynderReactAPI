@@ -4,6 +4,8 @@ import './App.css'
 import { useNavigate } from 'react-router-dom';
 
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 
 import {
@@ -17,19 +19,15 @@ function Genre(){
     useEffect(() => {
 
     })
-
-    const [genre, setGenre] = useState('')
-    const [genredel, setGenreDel] = useState('')
-
-    const {register, handleSubmit} = useForm();
     const navigate = useNavigate()
 
-    function del(e){
-        fetch(`/api/genres/${e.genreID}`, {method: 'DELETE'})
-        .then(
-            navigate('/')
-        )
-    }
+    const schema = yup.object().shape({
+        genrename: yup.string().trim().min(4).required()
+    })
+
+    const {register, handleSubmit, reset} = useForm({
+        resolver: yupResolver(schema)
+    });
 
     function create(e){
         //method='POST' action='/api/genres'
@@ -58,18 +56,11 @@ function Genre(){
                     <button type='submit'> Create Genre </button>
 
                 </div>
-
             </form>
 
-            <form onSubmit={handleSubmit(del)} style={{margin: 'auto', marginTop: '5vh', width: '25%'}}>
-                <div className='inputgroup'>
-                    <h2 style={{color: 'white'}}> Genre ID to Delete </h2><br/>
-                    <input {...register('genreID')} type='text' placeholder='Genre ID'/><br/><br/><br/>
-                    <button type='submit'> Delete Genre </button>
-
-                </div>
-
-            </form> 
+            <h2>
+                <Link to={'/DeleteGenre'} style={{marginLeft: '20px'}} className='link'> Genre Deletion Page </Link>
+            </h2>
         </>
     )
 }

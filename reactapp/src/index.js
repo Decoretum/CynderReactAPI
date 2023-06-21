@@ -6,6 +6,7 @@ import MovieInfo from './MovieInfo';
 import reportWebVitals from './reportWebVitals';
 import NewMovie from './NewMovie';
 import Genre from './Genre';
+import DeleteGenre from './DeleteGenre';
 
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: '/NewGenre',
     element: <Genre />
+  },
+  {
+    path: '/DeleteGenre',
+    element: <DeleteGenre />
   }
 ])
 

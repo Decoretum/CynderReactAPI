@@ -87,7 +87,7 @@ const deleteGenre = (req, res, next) => {
     db.run(query, [id], (err, rows) => {
         if (err) return console.error(err);
         else{
-            res.redirect('/')
+            res.json('/')
         }
     })
 }

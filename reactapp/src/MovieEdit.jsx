@@ -2,6 +2,8 @@ import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {useForm} from 'react-hook-form';
 import {useQuery, useMutation} from '@tanstack/react-query'
+import * as yup from 'yup'
+import { yupResolver } from "@hookform/resolvers/yup";
 
 function MovieEdit (){
     let data = useLocation() //Gets Pathname of URL
@@ -15,8 +17,17 @@ function MovieEdit (){
     const [year, setYear] = useState(0)
     const[movieName, setMovieName] = useState('')
 
-    const {register, handleSubmit, reset} = useForm();
     const navigate = useNavigate()
+
+    const schema = yup.object().shape({
+        name: yup.string().trim().min(5).required('Minimum of 5 characters for name'),
+        genre: yup.string().trim().notOneOf([yup.ref('Choose a Genre')]).required('Choose an actual Genre'),
+        year: yup.number().positive().max(9000).required('Year must be positive and a max of 9000')
+    })
+
+    const {register, handleSubmit, reset, formState:{errors}} = useForm({
+        resolver: yupResolver(schema)
+    });
 
     const movieQuery = useQuery({
         queryKey: ['moveidata'],
@@ -63,6 +74,7 @@ function MovieEdit (){
 
 
     function submit(e){
+        //or use react query with "enabled" property for setting a listener for when to run query funciton of submit
         fetch(`/api/movies${pathname.replace('/edit','')}/edit`, {
             headers: {
                 "Content-Type" : "application/json"
@@ -82,7 +94,10 @@ function MovieEdit (){
             <form onSubmit={handleSubmit(submit)} >
                 <div className="moviecontainer">
                     <div className="inputgroup" style={{backgroundColor: 'salmon', borderRadius: '9px', width: '50%'}}>
-                    <h2> Edit the Movie </h2> <br/>
+                    <h2> Edit the Movie </h2>
+                    <h2 style={{color: 'red', margin: 'auto', width: '40%', display: 'inline'}} > {errors.year?.message || errors.genre?.message || errors.name?.message} </h2>
+
+                     <br/>
                     <p> Name: </p> <br />
                     <input className="" 
                     {...register('name')}
