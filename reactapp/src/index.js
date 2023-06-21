@@ -8,7 +8,12 @@ import NewMovie from './NewMovie';
 import Genre from './Genre';
 import DeleteGenre from './DeleteGenre';
 
+
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+
+import { ChakraBaseProvider, ChakraProvider, extendBaseTheme, theme } from '@chakra-ui/react'
+import chakraTheme from '@chakra-ui/theme'
+
 
 import {
   createBrowserRouter,
@@ -16,11 +21,17 @@ import {
 } from 'react-router-dom'
 import MovieEdit from './MovieEdit';
 
+import defaultTheme from './theme'
+
+const { Button, Slider } = chakraTheme.components
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: 
+    // <ChakraProvider theme={theme}>
+      <App />,
+    // </ChakraProvider>,
     errorElement: <h2> Error </h2>
   },
   {
@@ -33,8 +44,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/new',
-    element: <NewMovie />,
-    //action: '/api/movies/new'
+    element: <NewMovie />
   },
   {
     path: '/NewGenre',
@@ -52,7 +62,7 @@ const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <QueryClientProvider client={queryClient}>
-    <RouterProvider router={router} />
+        <RouterProvider router={router} />
   </QueryClientProvider>
 );
 

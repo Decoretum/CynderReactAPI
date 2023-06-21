@@ -4,8 +4,8 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 
 
 function MovieInfo (){
-    let data = useLocation() //Gets Pathname of URL
-    let pathname = data.pathname;
+    let data = useLocation() //Gets Data stored from the State Props from the Link element from a react component
+    let pathname = data.pathname; //gets pathname of URL
     const [movie, setMovie] = useState({}) 
     const [genre, setGenre] = useState({})
 
@@ -16,7 +16,7 @@ function MovieInfo (){
         })
     }
 
-    useEffect(() => {}, [])
+    useEffect(() => {console.log(data)}, [])
 
     const movieQuery = useQuery({
         queryKey: ['moviedata'],

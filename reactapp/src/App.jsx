@@ -10,6 +10,8 @@ import { useSearchParams } from 'react-router-dom';
 import {
   Link,
 } from "react-router-dom";
+import { ChakraProvider, theme, ThemeOverride } from '@chakra-ui/react';
+
 
 
 function App() {
@@ -108,8 +110,6 @@ const filtered = (e) => {
 
 
 
-//const secondfiltered
-
 if (movieQuery.isLoading){
   return <h1> Loading movies! </h1>
 } else if (movieQuery.isError){
@@ -117,13 +117,14 @@ if (movieQuery.isLoading){
 }
 
   return (
+    // <ChakraProvider theme={theme}>
     <div className="App">
 
     <div className='App'>
-      <h1> MovieLand </h1>
-      <h2 style={{position: 'absolute', right: '7vw'}}> 
-        <Link className='link' to={'/new'}> Create a Movie </Link> <br/><br/>
-        <Link className='link' to={'/NewGenre'}> Create/Delete a Genre </Link>
+      <h1 style={{display: 'inline'}}> MovieLand </h1>
+      <h2 style={{position: 'absolute', marginLeft: '3vw', marginTop: '2vh', display: 'inline'}}> 
+        <Link className='link' to={'/new'}> Create a Movie </Link> 
+        <Link className='link' to={'/NewGenre'} style={{marginLeft: '2vw'}}> Create/Delete a Genre </Link>
 
       </h2>
       <div className='search'>
@@ -137,10 +138,11 @@ if (movieQuery.isLoading){
           />
       </div>
       <div>
-        <div className='header' style={{color: 'white', fontSize: '30px'}}> Filter by Genre & Term <br/><br/> Click a Genre then press the magnifying glass to instantly filter all movies based on a genre from SQLITE3 <br/><br/> Type a word on the search box to filter genre based on the "term" then press the magnifying glass. </div>
-        <div className='header' style={{color: 'white', fontSize: '20px'}}> To view a Movie, press the Movie name from down below. You will be redirected to the Movie information page. </div>
-        <div className='header' style={{color: 'white', fontSize: '20px'}}> Movie Information Page: Contains Information about the movie as well as "Edit" and "Delete" buttons that will redirect you to an Edit form or delete a movie object from SQLITE3. </div>
-
+        <div style={{border: 'solid', width: '80%', marginLeft: '3vw', borderRadius: '9px', backgroundColor: 'blanchedalmond'}}>
+          <div className='header' style={{color: 'black', fontSize: '20px'}}> Filter by Genre & Term <br/><br/> Click a Genre then press the magnifying glass to instantly filter all movies based on a genre from SQLITE3 <br/><br/> Type a word on the search box to filter genre based on the "term" then press the magnifying glass. </div>
+          <div className='header' style={{color: 'black', fontSize: '20px'}}> To view a Movie, press the Movie name from down below. You will be redirected to the Movie information page. </div>
+          <div className='header' style={{color: 'black', fontSize: '20px'}}> Movie Information Page: Contains Information about the movie as well as "Edit" and "Delete" buttons that will redirect you to an Edit form or delete a movie object from SQLITE3. </div>
+        </div> <br/><br/>
         <select onChange={(e) => setSearchGenre(e.target.value)} 
            style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}
            > 
@@ -153,6 +155,7 @@ if (movieQuery.isLoading){
         </select>
       </div>
     </div>
+    
 
 
 
@@ -179,6 +182,7 @@ if (movieQuery.isLoading){
           
       }
     </div>
+    // </ChakraProvider>
   );
 }
 
