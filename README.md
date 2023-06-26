@@ -1,15 +1,15 @@
 # CynderReactAPI
-<h1> Gael's Fullstack React Express Exercise </h1>
-<p> Tech stack </p>
+<h1> Gael's Fullstack React Express Exercise </h1> <br>
+<h1> Tech stack </h1>
 <p> ReactJS </p>
 <p> ExpressJS </p>
 <p> SQLITE3 </p>
 <p> Yup </p> <br><br>
 
-<p> React Libraries and/or packages </p>
+<h2> React Libraries and/or packages </h2>
 <p> React Query </p>
 <p> Chakra UI </p>
-<p> React Form Hooks </p>
+<p> React Form Hooks </p> <br><br>
 
 <h1> Connecting Express and React </h1>
 <p> 1. add "proxy" key to package.json of React server with value of server URL of Express <p>
