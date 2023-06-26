@@ -16,7 +16,7 @@ function NewMovie({props}){
     const schema = yup.object().shape({
         name: yup.string().trim().min(5).required('Minimum of 5 characters for name'),
         genre: yup.string().trim().notOneOf([yup.ref('Choose a Genre')]).required('Choose an actual Genre'),
-        year: yup.number().positive().max(9000).required('Year must be positive and a max of 9000')
+        year: yup.number().integer('Year must be an INTEGER, not a DECIMAL').typeError('Year must be a NUMBER, not a STRING').positive().max(9000).required('Year must be positive and a max of 9000')
     })
 
     const {register, handleSubmit, formState: {errors}} = useForm({
@@ -73,12 +73,12 @@ function NewMovie({props}){
     return(
             <>
             <h2 style={{margin: '20px'}}> <Link to={'/'} className='link'> Back to Home </Link> </h2>
-            <h2 style={{color: 'red', margin: 'auto', width: '40%'}} > {errors.year?.message || errors.genre?.message || errors.name?.message} </h2>
-            <form style={{margin: 'auto', marginTop: '5vh', width: '25%', backgroundColor: 'burlywood', padding: '15px' }} onSubmit={handleSubmit(submit)}>
+            <h2 style={{color: 'red', margin: 'auto', width: '33%'}} > {errors.year?.message || errors.genre?.message || errors.name?.message} </h2>
+            <form style={{margin: 'auto', marginTop: '5vh', width: '33%', backgroundColor: 'burlywood', padding: '15px', borderRadius: '9px' }} onSubmit={handleSubmit(submit)}>
             <h2 className='header' style={{color: 'black', display: 'inline'}}> Create a Movie! </h2> 
                 <div className='inputgroup'>
                     <span style={{color:'black'}}>Movie Name</span> <br/><br/>
-                    <input {...register('name')} type='text' placeholder='Movie Name'/><br/><br/><br/>
+                    <input {...register('name')} style={{width: '20vw'}} type='text' placeholder='Movie Name'/><br/><br/><br/>
 
                     <span style={{color:'black'}}>Movie Genre</span> <br /><br />
                     <select {...register('genre')} style={{padding: '5px', borderRadius: '9px'}}> 

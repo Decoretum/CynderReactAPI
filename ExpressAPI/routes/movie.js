@@ -18,7 +18,7 @@ router.route('/:id/edit')
 
 
 router.route('/')
-.get((req, res, next) => {res.json({home:true})})
+.get(functions[2], () => {})
 
 
 module.exports = router

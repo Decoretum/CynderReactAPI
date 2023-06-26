@@ -14,6 +14,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 function EditGenre(){
+    const [genres, setGenres] = useState([])
+    const [id, setID] = useState([])
 
     const schema = yup.object().shape({
         name: yup.string().trim().min(5).required('Minimum of 5 Characters for the name'),
@@ -24,14 +26,19 @@ function EditGenre(){
                 }
                 return true
             }
-        }).positive().max(9000).required('GenreID can only be a positive number')
+        }).positive().max(9000).test({
+            test(value, ctx){
+                if (!id.includes(Number(value))){
+                    return ctx.createError({message: 'GenreID input is not part of the Genre Database!'})
+                }
+                return true
+            }
+        }).required('GenreID can only be a positive number')
     })
 
     const {register, handleSubmit, formState:{errors}} = useForm({
         resolver: yupResolver(schema)
     })
-
-    const [genres, setGenres] = useState([])
 
     const navigate = useNavigate()
     useEffect(() => {
@@ -45,6 +52,9 @@ function EditGenre(){
             .then(response => response.json())
             .then(genres => {
                 setGenres(genres)
+                genres.map((genre) => {
+                    setID(id => [...id, genre.genreID])
+                })
                 return genres
             })
         }

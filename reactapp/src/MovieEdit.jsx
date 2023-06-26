@@ -17,12 +17,14 @@ function MovieEdit (){
     const [year, setYear] = useState(0)
     const[movieName, setMovieName] = useState('')
 
+    const [names, setNames] = useState([])
+
     const navigate = useNavigate()
 
     const schema = yup.object().shape({
         name: yup.string().trim().min(5).required('Minimum of 5 characters for name'),
         genre: yup.string().trim().notOneOf([yup.ref('Choose a Genre')]).required('Choose an actual Genre'),
-        year: yup.number().positive().integer().max(9000).required('Year must be positive and a max of 9000')
+        year: yup.number().typeError('Year must be a NUMBER').positive().integer().max(9000).required('Year must be positive and a max of 9000')
     })
 
     const {register, handleSubmit, reset, formState:{errors}} = useForm({
@@ -95,7 +97,7 @@ function MovieEdit (){
                 <div className="moviecontainer">
                     <div className="inputgroup" style={{backgroundColor: 'salmon', borderRadius: '9px', width: '50%'}}>
                     <h2> Edit the Movie </h2>
-                    <h2 style={{color: 'red', margin: 'auto', width: '40%', display: 'inline'}} > {errors.year?.message || errors.genre?.message || errors.name?.message} </h2>
+                    <h2 style={{color: 'white', margin: 'auto', width: '40%', display: 'inline'}} > {errors.year?.message || errors.genre?.message || errors.name?.message} </h2> <br/>
 
                      <br/>
                     <p> Name: </p> <br />
