@@ -55,19 +55,19 @@ function DeleteGenre(){
 
     return (
         <>
-        <h2 style={{margin: '20px'}}> <Link to={'/NewGenre'} className='link'> Back to Create Genre </Link> </h2>
+        <h2 style={{margin: '20px', fontWeight: 'bold', fontSize: '20px'}}> <Link to={'/NewGenre'} className='link'> Back to Create Genre </Link> </h2>
         <div>
-            <form onSubmit={handleSubmit(del)} style={{margin: 'auto', marginTop: '5vh', width: '25%'}}>
+            <form onSubmit={handleSubmit(del)} style={{margin: 'auto', borderRadius: '9px', marginTop: '5vh', width: '25%', backgroundColor: 'burlywood'}}>
                 <div className='inputgroup'>
                     <h2 style={{color: 'red'}}> {errors.genreID?.message} <br/> </h2>
-                    <h2 style={{color: 'white'}}> Genre ID to Delete </h2><br/>
+                    <h2 style={{color: 'black', fontSize: '20px', fontWeight: 'bold'}}> Genre ID to Delete </h2><br/>
                     <input {...register('genreID')} type='text' placeholder='Genre ID'/><br/><br/><br/>
-                    <button type='submit'> Delete Genre </button>
+                    <button type='submit' style={{color: 'black', backgroundColor: 'teal', padding: '15px'}}> Delete Genre </button><br/><br/>  
 
                 </div>
             </form> 
 
-            <Accordion maxW='20vw' style={{marginLeft: '2vw', marginTop: '15vh', width:'20vw', backgroundColor: 'azure', borderRadius: '9px', position: 'absolute', top:'1vh'}} allowToggle>
+            <Accordion maxW='20vw' style={{marginLeft: '2vw', marginTop: '15vh', width:'20vw', backgroundColor: 'azure', borderRadius: '9px', padding:'10px', position: 'absolute', top:'1vh'}} allowToggle>
                 <AccordionItem>
                     <h2>
                         <AccordionButton _expanded={{bg: 'tomate'}}>

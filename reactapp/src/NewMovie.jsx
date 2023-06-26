@@ -96,7 +96,7 @@ function NewMovie({props}){
 
                     <Button colorScheme='teal' style={{backgroundColor: 'teal', padding: '10px'}} size='lg' type='submit'> Create Movie </Button> 
                 </div>
-            </form>
+            </form> <br/><br/>
             </>
 
     )
