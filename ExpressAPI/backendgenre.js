@@ -10,15 +10,7 @@ const getAll = (req, res, next) => {
         if (err) return console.error(err);
         else{
             console.log(rows)
-            res.write(`
-            <h1> All Genres! </h1>
-            `)
-            for (let i=0; i < rows.length; i++){
-                res.write(`
-                    <p> ID ${rows[i].genreID}: ${rows[i].name} </p>
-                    `)
-            }
-            res.end()
+            res.json(rows)
             
     
         }
@@ -71,7 +63,7 @@ const editGenre = (req, res, next) => {
     db.run(query, [name, id], (err, rows) => {
         if (err) return console.error(err);
         else{
-            res.json(rows);
+            res.json('/');
         }
     })
 }

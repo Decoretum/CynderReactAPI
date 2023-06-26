@@ -8,7 +8,7 @@ router.route('/')
 
 router.route('/:id')
 .get(functions[1], ()=>{})
-.patch(functions[3], ()=>{})
+.put(functions[3], ()=>{})
 .delete(functions[4], ()=>{})
 
 module.exports = router;

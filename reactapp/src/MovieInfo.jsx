@@ -2,6 +2,9 @@ import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
+import { Card, CardHeader, CardBody, 
+    CardFooter, Heading, StackDivider, Stack, Box, Text, Divider } 
+    from '@chakra-ui/react'
 
 function MovieInfo (){
     let data = useLocation() //Gets Data stored from the State Props from the Link element from a react component
@@ -51,16 +54,51 @@ function MovieInfo (){
 
     return(
         <>  
-            <div className="moviecontainer">
-                <h2> Movie info! </h2>
-                <p> Name: {moviedata.name} </p>
-                <p> Genre: {genre.name} </p>
-                <p> Year: {moviedata.year} </p> <br /><br/>
+            <div className="moviecontainer" style={{backgroundColor: 'azure'}}>
+
+                <Card variant='outline' style={{border: 'solid 2px', borderRadius: '9px', backgroundColor:'beige', padding: '15px'}} maxW='50vw'>
+                    <CardHeader>
+                        <Heading size='lg'> Movie Information </Heading>
+                    </CardHeader> <br/>
+                    <CardBody marginTop={'2vh'}>
+                        <Stack divider={<StackDivider />} spacing='4'> 
+                            <Box>
+                                <Heading size='xs' textTransform='uppercase'>
+                                    Movie Name
+                                </Heading>
+                                <Text pt='2' fontSize='md'> 
+                                    {moviedata.name}
+                                </Text>
+                            </Box><br/>
+                            <Box>
+                                <Heading size='xs' textTransform='uppercase'>
+                                        Movie Genre
+                                    </Heading>
+                                    <Text pt='2' fontSize='md'> 
+                                        {genre.name}
+                                    </Text>
+                            </Box><br/>
+                            <Box>
+                            <Heading size='xs' textTransform='uppercase'>
+                                    Movie Year
+                                </Heading>
+                                <Text pt='2' fontSize='md'> 
+                                    {moviedata.year}
+                                </Text>
+                            </Box><br/>
+
+                        </Stack>
+
+                    </CardBody>
+
+                </Card> <br/><br/>
+                
                 <p style={{display: 'inline'}}> <Link to={'/'} className="link" style={{color: 'green', backgroundColor:'yellow', borderRadius: '9px', padding: '10px'}}> Back to Home </Link></p>
                 <p style={{display: 'inline', marginLeft: '2vw'}}> <Link to={`${pathname}/edit`} className="link" style={{color: 'green', backgroundColor:'yellow', borderRadius: '9px', padding: '10px'}}> Edit </Link></p>
                 <p style={{display: 'inline', marginLeft: '2vw'}}> <Link onClick={del} className="link" style={{color: 'green', backgroundColor:'yellow', borderRadius: '9px', padding: '10px'}}> Delete </Link></p>
-                <br /> <br />
-            </div>
+
+            <br/><br/>
+            </div> 
         </>
     )
 

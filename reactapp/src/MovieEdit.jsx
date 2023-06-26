@@ -22,7 +22,7 @@ function MovieEdit (){
     const schema = yup.object().shape({
         name: yup.string().trim().min(5).required('Minimum of 5 characters for name'),
         genre: yup.string().trim().notOneOf([yup.ref('Choose a Genre')]).required('Choose an actual Genre'),
-        year: yup.number().positive().max(9000).required('Year must be positive and a max of 9000')
+        year: yup.number().positive().integer().max(9000).required('Year must be positive and a max of 9000')
     })
 
     const {register, handleSubmit, reset, formState:{errors}} = useForm({

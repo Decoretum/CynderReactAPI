@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import NewMovie from './NewMovie';
 import Genre from './Genre';
 import DeleteGenre from './DeleteGenre';
+import EditGenre from './EditGenre';
 
 
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
@@ -23,15 +24,13 @@ import MovieEdit from './MovieEdit';
 
 import defaultTheme from './theme'
 
-const { Button, Slider } = chakraTheme.components
-
 const router = createBrowserRouter([
   {
     path: '/',
     element: 
-    // <ChakraProvider theme={theme}>
-      <App />,
-    // </ChakraProvider>,
+    <ChakraProvider theme={defaultTheme}>
+      <App />
+     </ChakraProvider>,
     errorElement: <h2> Error </h2>
   },
   {
@@ -53,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: '/DeleteGenre',
     element: <DeleteGenre />
+  },
+  {
+    path: '/EditGenre',
+    element: <EditGenre/>
   }
 ])
 

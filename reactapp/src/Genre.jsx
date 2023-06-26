@@ -49,17 +49,18 @@ function Genre(){
     return (
         <>
             <h2 style={{margin: '20px'}}> <Link to={'/'} className='link'> Back to Home </Link> </h2>
-            <form onSubmit={handleSubmit(create)}  style={{margin: 'auto', marginTop: '5vh', width: '25%'}}>
+            <form onSubmit={handleSubmit(create)}  style={{margin: 'auto', marginTop: '5vh', width: '25%', backgroundColor: 'burlywood', borderRadius: '9px'}}>
                 <div className='inputgroup'>
-                    <h2 style={{color: 'white'}}> Genre Name </h2><br/>
+                    <h2 style={{color: 'black'}}> Genre Name </h2><br/>
                     <input type='text' placeholder='Genre Name' {...register('genrename')}/><br/><br/><br/>
                     <button type='submit'> Create Genre </button>
 
                 </div>
-            </form>
+            </form> <br/><br/><br/>
 
-            <h2>
-                <Link to={'/DeleteGenre'} style={{marginLeft: '20px'}} className='link'> Genre Deletion Page </Link>
+            <h2 style={{margin: 'auto', width: '25%'}}>
+                <Link to={'/DeleteGenre'} style={{marginLeft: '20px'}} className='link'> Genre Deletion Page </Link> <br/><br/>
+                <Link to={'/EditGenre'} style={{marginLeft: '20px'}} className='link'> Genre Edit Page </Link>
             </h2>
         </>
     )

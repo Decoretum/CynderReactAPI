@@ -10,7 +10,15 @@ import { useSearchParams } from 'react-router-dom';
 import {
   Link,
 } from "react-router-dom";
-import { ChakraProvider, theme, ThemeOverride } from '@chakra-ui/react';
+
+import {
+  Box,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from '@chakra-ui/react'
 
 
 
@@ -124,7 +132,7 @@ if (movieQuery.isLoading){
       <h1 style={{display: 'inline'}}> MovieLand </h1>
       <h2 style={{position: 'absolute', marginLeft: '3vw', marginTop: '2vh', display: 'inline'}}> 
         <Link className='link' to={'/new'}> Create a Movie </Link> 
-        <Link className='link' to={'/NewGenre'} style={{marginLeft: '2vw'}}> Create/Delete a Genre </Link>
+        <Link className='link' to={'/NewGenre'} style={{marginLeft: '2vw'}}> Create/Delete/Edit a Genre </Link>
 
       </h2>
       <div className='search'>
@@ -137,12 +145,40 @@ if (movieQuery.isLoading){
           onClick={filtered}
           />
       </div>
+
+      <Accordion allowMultiple style={{marginLeft: '3vw', backgroundColor: 'azure', width: '40%', padding: '10px', borderRadius: '9px'}}>
+        <AccordionItem>
+          <h2>
+            <AccordionButton _expanded={{bg:'tomato'}} style={{padding: '10px'}}>
+              <Box as='span' flex='1' textAlign='left'>
+                Filtering by Genre & Term
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4} style={{ backgroundColor: 'floralwhite', padding: '10px'}}>
+            Click a Genre then press the magnifying glass to instantly filter all movies based on a genre from SQLITE3 <br/><br/> Type a word on the search box to filter genre based on the "term" then press the magnifying glass.
+          </AccordionPanel>
+        </AccordionItem> 
+
+        <AccordionItem>
+          <h2>
+            <AccordionButton _expanded={{bg:'tomato'}} style={{padding: '10px'}}>
+              <Box as='span' flex='1' textAlign={'left'}>
+                Movie Navigation
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4} style={{backgroundColor: 'floralwhite', padding: '10px'}}>
+          To view a Movie, press the Movie name from down below. You will be redirected to the Movie information page. <br/><br/>
+          Movie Information Page: Contains Information about the movie as well as "Edit" and "Delete" buttons that will redirect you to an Edit form or delete a movie object from SQLITE3.
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+
+      <br/><br/>
       <div>
-        <div style={{border: 'solid', width: '80%', marginLeft: '3vw', borderRadius: '9px', backgroundColor: 'blanchedalmond'}}>
-          <div className='header' style={{color: 'black', fontSize: '20px'}}> Filter by Genre & Term <br/><br/> Click a Genre then press the magnifying glass to instantly filter all movies based on a genre from SQLITE3 <br/><br/> Type a word on the search box to filter genre based on the "term" then press the magnifying glass. </div>
-          <div className='header' style={{color: 'black', fontSize: '20px'}}> To view a Movie, press the Movie name from down below. You will be redirected to the Movie information page. </div>
-          <div className='header' style={{color: 'black', fontSize: '20px'}}> Movie Information Page: Contains Information about the movie as well as "Edit" and "Delete" buttons that will redirect you to an Edit form or delete a movie object from SQLITE3. </div>
-        </div> <br/><br/>
         <select onChange={(e) => setSearchGenre(e.target.value)} 
            style={{padding: '5px', borderRadius: '9px', marginLeft: '4vw'}}
            > 
