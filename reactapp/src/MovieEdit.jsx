@@ -4,6 +4,7 @@ import {useForm} from 'react-hook-form';
 import {useQuery, useMutation} from '@tanstack/react-query'
 import * as yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup";
+import * as chakra from '@chakra-ui/react'
 
 function MovieEdit (){
     let data = useLocation() //Gets Pathname of URL
@@ -96,7 +97,7 @@ function MovieEdit (){
             <form onSubmit={handleSubmit(submit)} >
                 <div className="moviecontainer">
                     <div className="inputgroup" style={{backgroundColor: 'salmon', borderRadius: '9px', width: '50%'}}>
-                    <h2> Edit the Movie </h2>
+                    <h2 style={{fontWeight: 'bold', fontSize: '20px'}}> Edit Movie </h2>
                     <h2 style={{color: 'white', margin: 'auto', width: '40%', display: 'inline'}} > {errors.year?.message || errors.genre?.message || errors.name?.message} </h2> <br/>
 
                      <br/>
@@ -125,9 +126,9 @@ function MovieEdit (){
                         }
                     </select><br/> <br/><br/>
                     <input type="hidden" value={movie.movie_id} {...register('movie_id')} />
-                    <button type="submit" style={{backgroundColor: 'yellow', color: 'green', display: 'inline'}}> Edit Movie </button> 
+                    <chakra.Button type="submit" colorScheme="teal" style={{backgroundColor: 'yellow', color: 'black', display: 'inline', padding: '15px'}}> Edit Movie </chakra.Button> 
 
-                    <p style={{display: 'inline'}}> <Link to={`${pathname.replace('/edit','')}`} className="link" style={{color: 'green', backgroundColor:'yellow', borderRadius: '9px', padding: '10px', marginLeft: '3vw'}}> Back </Link></p>
+                    <p style={{display: 'inline'}}> <Link to={`${pathname.replace('/edit','')}`} className="link" style={{color: 'black', backgroundColor:'yellow', borderRadius: '9px', padding: '10px', marginLeft: '3vw'}}> Back </Link></p>
                     <br/>
                     </div>
                 </div>

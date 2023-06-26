@@ -58,10 +58,10 @@ function MovieInfo (){
 
                 <Card variant='outline' style={{border: 'solid 2px', borderRadius: '9px', backgroundColor:'beige', padding: '15px'}} maxW='50vw'>
                     <CardHeader>
-                        <Heading size='lg'> Movie Information </Heading>
+                        <Heading size='lg' style={{fontWeight: 'bold', fontSize: '20px'}}> Movie Information </Heading>
                     </CardHeader> <br/>
                     <CardBody marginTop={'2vh'}>
-                        <Stack divider={<StackDivider />} spacing='4'> 
+                        <Stack divider={<StackDivider />} spacing='5'> 
                             <Box>
                                 <Heading size='xs' textTransform='uppercase'>
                                     Movie Name
@@ -69,16 +69,16 @@ function MovieInfo (){
                                 <Text pt='2' fontSize='md'> 
                                     {moviedata.name}
                                 </Text>
-                            </Box><br/>
-                            <Box>
+                            </Box>
+                            <Box style={{marginTop: '2vh'}}>
                                 <Heading size='xs' textTransform='uppercase'>
                                         Movie Genre
                                     </Heading>
                                     <Text pt='2' fontSize='md'> 
                                         {genre.name}
                                     </Text>
-                            </Box><br/>
-                            <Box>
+                            </Box>
+                            <Box style={{marginTop: '2vh'}}>
                             <Heading size='xs' textTransform='uppercase'>
                                     Movie Year
                                 </Heading>
@@ -93,9 +93,9 @@ function MovieInfo (){
 
                 </Card> <br/><br/>
                 
-                <p style={{display: 'inline'}}> <Link to={'/'} className="link" style={{color: 'green', backgroundColor:'yellow', borderRadius: '9px', padding: '10px'}}> Back to Home </Link></p>
-                <p style={{display: 'inline', marginLeft: '2vw'}}> <Link to={`${pathname}/edit`} className="link" style={{color: 'green', backgroundColor:'yellow', borderRadius: '9px', padding: '10px'}}> Edit </Link></p>
-                <p style={{display: 'inline', marginLeft: '2vw'}}> <Link onClick={del} className="link" style={{color: 'green', backgroundColor:'yellow', borderRadius: '9px', padding: '10px'}}> Delete </Link></p>
+                <p style={{display: 'inline'}}> <Link to={'/'} className="link" style={{color: 'black', backgroundColor:'burlywood', borderRadius: '9px', padding: '10px'}}> Back to Home </Link></p>
+                <p style={{display: 'inline', marginLeft: '2vw'}}> <Link to={`${pathname}/edit`} className="link" style={{color: 'black', backgroundColor:'burlywood', borderRadius: '9px', padding: '10px'}}> Edit </Link></p>
+                <p style={{display: 'inline', marginLeft: '2vw'}}> <Link onClick={del} className="link" style={{color: 'black', backgroundColor:'burlywood', borderRadius: '9px', padding: '10px'}}> Delete </Link></p>
 
             <br/><br/>
             </div> 

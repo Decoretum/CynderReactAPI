@@ -28,9 +28,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: 
-    <ChakraProvider theme={defaultTheme}>
-      <App />
-     </ChakraProvider>,
+      <App />,
+
     errorElement: <h2> Error </h2>
   },
   {
@@ -64,9 +63,11 @@ const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-  </QueryClientProvider>
+  <ChakraProvider theme={defaultTheme}>
+    <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+    </QueryClientProvider>
+  </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

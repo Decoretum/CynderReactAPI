@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import {useQuery, useMutation} from '@tanstack/react-query'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import {Button} from '@chakra-ui/react'
 
 import './App.css'
 
@@ -72,10 +73,10 @@ function NewMovie({props}){
 
     return(
             <>
-            <h2 style={{margin: '20px'}}> <Link to={'/'} className='link'> Back to Home </Link> </h2>
+            <h2 className='link' style={{margin: '20px', color: 'white', fontWeight: 'bold', fontSize: '20px'}}> <Link to={'/'}> Back to Home </Link> </h2>
             <h2 style={{color: 'red', margin: 'auto', width: '33%'}} > {errors.year?.message || errors.genre?.message || errors.name?.message} </h2>
             <form style={{margin: 'auto', marginTop: '5vh', width: '33%', backgroundColor: 'burlywood', padding: '15px', borderRadius: '9px' }} onSubmit={handleSubmit(submit)}>
-            <h2 className='header' style={{color: 'black', display: 'inline'}}> Create a Movie! </h2> 
+            <h2 className='header' style={{fontWeight: 'bold', fontSize: '20px'}}> Create a Movie! </h2> 
                 <div className='inputgroup'>
                     <span style={{color:'black'}}>Movie Name</span> <br/><br/>
                     <input {...register('name')} style={{width: '20vw'}} type='text' placeholder='Movie Name'/><br/><br/><br/>
@@ -93,7 +94,7 @@ function NewMovie({props}){
                     <span style={{color:'black'}}>Year</span> <br /><br />
                     <input {...register('year')} type='text' placeholder='Year' /><br/><br/><br/>    
 
-                    <button type='submit'> Create Movie </button> 
+                    <Button colorScheme='teal' style={{backgroundColor: 'teal', padding: '10px'}} size='lg' type='submit'> Create Movie </Button> 
                 </div>
             </form>
             </>
